@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class FilterInAction {
@@ -14,17 +15,22 @@ public class FilterInAction {
     
     static final List<Transaction> transactions = Arrays.asList(
         new Transaction(Currency.getInstance(Locale.UK), BigDecimal.valueOf(1000.00)),
-        new Transaction(Currency.getInstance(Locale.UK), BigDecimal.TEN),
-        new Transaction(Currency.getInstance(Locale.UK), BigDecimal.valueOf(55.00)));
-    
+        new Transaction(Currency.getInstance(Locale.US), BigDecimal.valueOf(2500.00)),
+        new Transaction(Currency.getInstance(Locale.US), BigDecimal.valueOf(5750.00)));
+
     public static void main(String[] args) {
         // filter with method references
         System.out.println(filterApples(inventory, FilterInAction::isGreenApple));
         System.out.println(filterApples(inventory, FilterInAction::isHeavyApple));
         
         // filter with lambdas
-        System.out.println(filterApples(inventory, (Apple a) -> "green".equals(a.colour)));
+        System.out.println(filterApples(inventory, a -> "green".equals(a.colour)));
         System.out.println(filterApples(inventory, (Apple a) -> a.weight > 70));
+
+        // free local variable
+        int port = 1234;
+        Runnable r = ()-> System.out.println(port);
+        //port = 1;
     }
     
     static boolean isGreenApple(Apple apple) {
